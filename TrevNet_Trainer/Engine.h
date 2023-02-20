@@ -12,7 +12,9 @@
 using namespace std;
 
 #include <NVLib/Logger.h>
+
 #include <TrevNet_TrainerLib/ArgUtils.h>
+#include <TrevNet_TrainerLib/ProblemLoader.h>
 
 namespace NVL_App
 {
@@ -21,6 +23,13 @@ namespace NVL_App
 	private:
 		NVLib::Parameters * _parameters;
 		NVLib::Logger* _logger;
+
+		NVL_AI::ProblemLoader * _problem;
+		NVL_AI::CodeDash * _codeDash;
+
+		string _machineName;
+		int _sessionId;
+
 	public:
 		Engine(NVLib::Logger* logger, NVLib::Parameters * parameters);
 		~Engine();

@@ -40,6 +40,9 @@ set_target_properties(TrevNetLib PROPERTIES
 find_package( OpenCV REQUIRED)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
+# Add OpenSSL to the solution
+find_package(OpenSSL REQUIRED) 
+
 # Add the available subfolders
 add_subdirectory(TrevNet_TrainerLib)
 add_subdirectory(TrevNet_TrainerTests)
