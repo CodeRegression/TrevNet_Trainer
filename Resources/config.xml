@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<opencv_storage>
+    <port>"80"</port>
+    <server>"192.168.1.109"</server>
+    <uri>/CodeDash/</uri>
+    <machine>"192.168.1.109"</machine>
+    <problem_code>XOR</problem_code>
+    <problem_file></problem_file>
+</opencv_storage>
