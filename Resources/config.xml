@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<problem_code>IRIS</problem_code>
+<server>"49.227.218.234"</server>
+<port>"8080"</port>
+<machine>"LabDev"</machine>
+<uri>/CodeDash/</uri>
+<problem_file>/home/trevor/Work/Research/Trevor/SymReg/TrevNet_Trainer/build/TrevNet_Trainer/Input/B692E1414FD145589F5C8F1F234E894D.arff</problem_file>
+<network>"4,16,3"</network>
+</opencv_storage>

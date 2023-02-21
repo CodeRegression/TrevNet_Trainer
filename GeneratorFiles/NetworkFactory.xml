@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<class>
+
+<namespace>NVL_AI</namespace>
+<solution>TrevNet_TrainerLib</solution>
+<name>NetworkFactory</name>
+<description>Create a network</description>
+
+<includes>
+    <include name="iostream" namespace="std" local="false" />
+    <include name="TrevNetLib/Network.h" local="false" />
+</includes>
+
+<methods>
+
+    <method section="Create Network" modifiers="static" access="public" return="Network *" name="Create" description="Create a network" inline="false">
+        <parameter type="const string&" name="configuration" description="The network configuration" />
+    </method>    
+
+</methods>
+
+<tests>
+    <test name="random_network_creation" description="Verify the creation of a network with just a random generation string" exception="false" />
+</tests> 
+
+</class>

@@ -10,9 +10,10 @@
 include_directories("../" "${LIBRARY_BASE}/NVLib")
 
 # Create Library
-add_library(TrevNet_TrainerLib STATIC
-    ArgUtils.cpp
-    CodeDash.cpp
-    Socket.cpp
-    ProblemLoader.cpp
+add_library (TrevNet_TrainerLib STATIC
+	ArgUtils.cpp
+	CodeDash.cpp
+	Socket.cpp
+	ProblemLoader.cpp
+	NetworkFactory.cpp
 )

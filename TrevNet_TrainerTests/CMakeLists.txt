@@ -20,12 +20,13 @@ set_target_properties(UnitTestLib PROPERTIES
 )
 
 # Create the executable
-add_executable(TrevNet_TrainerTests
-    Tests/Example_Tests.cpp
+add_executable (TrevNet_TrainerTests
+	Tests/Example_Tests.cpp
+	Tests/NetworkFactory_Tests.cpp
 )
 
 # Add link libraries
-target_link_libraries(TrevNet_TrainerTests TrevNet_TrainerLib NVLib ${OpenCV_LIBS} UnitTestLib GTest::Main)
+target_link_libraries(TrevNet_TrainerTests TrevNet_TrainerLib TrevNetLib NVLib ${OpenCV_LIBS} UnitTestLib GTest::Main)
 
 # Find the associated unit tests
 gtest_discover_tests(TrevNet_TrainerTests)

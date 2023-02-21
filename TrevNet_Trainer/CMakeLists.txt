@@ -16,7 +16,7 @@ add_executable(TrevNet_Trainer
 )
 
 # Add link libraries                               
-target_link_libraries(TrevNet_Trainer TrevNet_TrainerLib NVLib ${OpenCV_LIBS}  OpenSSL::SSL uuid)
+target_link_libraries(TrevNet_Trainer TrevNet_TrainerLib TrevNetLib NVLib ${OpenCV_LIBS} OpenSSL::SSL uuid)
 
 # Copy Resources across
 add_custom_target(resource_copy ALL
