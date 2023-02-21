@@ -11,7 +11,10 @@
 #include <iostream>
 using namespace std;
 
+#include <NVLib/StringUtils.h>
+
 #include <TrevNetLib/Network.h>
+#include <TrevNetLib/Generator/RandomGenerator.h>
 
 namespace NVL_AI
 {
@@ -19,5 +22,7 @@ namespace NVL_AI
 	{
 	public:
 		static Network * Create(const string& configuration);
+	private:
+		static void String2Vector(const string& configuration, vector<int>& output);
 	};
 }

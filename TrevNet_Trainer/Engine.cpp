@@ -36,6 +36,12 @@ Engine::Engine(NVLib::Logger* logger, NVLib::Parameters* parameters)
     auto connection = _codeDash->Ping(); 
     if (connection == string()) throw runtime_error("Connection with server failed");
     _logger->Log(1, "Server connection established");
+
+    _logger->Log(1, "Creating the network");
+    auto structure = ArgUtils::GetString(_parameters, "network");
+    _network = NVL_AI::NetworkFactory::Create(structure);
+    _logger->Log(1, "Network is created");
+    _logger->Log(1, "Number of network layers: %i", _network->GetLayers().size());
 }
 
 /**
@@ -48,6 +54,7 @@ Engine::~Engine()
 
     // Free Loaded Entities
     if (_problem != nullptr) delete _problem;
+    if (_network != nullptr) delete _network;
 
     // Free parameters and code dash
     delete _parameters;  delete _codeDash;

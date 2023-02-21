@@ -15,6 +15,7 @@ using namespace std;
 
 #include <TrevNet_TrainerLib/ArgUtils.h>
 #include <TrevNet_TrainerLib/ProblemLoader.h>
+#include <TrevNet_TrainerLib/NetworkFactory.h>
 
 namespace NVL_App
 {
@@ -26,6 +27,7 @@ namespace NVL_App
 
 		NVL_AI::ProblemLoader * _problem;
 		NVL_AI::CodeDash * _codeDash;
+		NVL_AI::Network * _network;
 
 		string _machineName;
 		int _sessionId;
