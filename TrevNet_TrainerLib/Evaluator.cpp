@@ -56,8 +56,9 @@ void Evaluator::GetInputs(int rowId, vector<double>& values)
  * @param rowId The index of the row that we went to evaluate
  * @param values The values that we are comparing
  * @param deltas The deltas produced by the system
+ * @return Indicates if the value was "correct" or not
  */
-void Evaluator::GetOutputs(int rowId, vector<double>& values, vector<double>& deltas)
+bool Evaluator::Evaluate(int rowId, vector<double>& values, vector<double>& deltas)
 {
 	throw runtime_error("Not implemented");
 }

@@ -28,7 +28,7 @@ namespace NVL_AI
 		int GetRowCount();
 		void GetInputs(int rowId, vector<double>& values);
 
-		virtual void GetOutputs(int rowId, vector<double>& values, vector<double>& deltas);
+		bool Evaluate(int rowId, vector<double>& values, vector<double>& deltas);
 
 		inline int& GetOutputs() { return _outputs; }
 		inline bool GetValueOut() { return _valueOut; }
