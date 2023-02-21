@@ -83,3 +83,30 @@ bool ArgUtils::GetBoolean(NVLib::Parameters * parameters, const string& key)
 	auto value = parameters->Get(key);
 	return NVLib::StringUtils::String2Bool(value);
 }
+
+/**
+ * @brief Add the functionality to get an associated vector
+ * @param parameters The parameters that we are extracting from 
+ * @param key The key value of the attribute that we want
+ * @param values The values that are coming out
+ */
+void ArgUtils::GetVector(NVLib::Parameters * parameters, const string& key, vector<int>& values) 
+{
+	auto stringValue = GetString(parameters, key); values.clear();
+
+	if (!NVLib::StringUtils::Contains(stringValue, ",")) 
+	{
+		auto value = NVLib::StringUtils::String2Int(stringValue);
+		values.push_back(value);
+	}
+	else 
+	{
+		auto parts = vector<string>(); NVLib::StringUtils::Split(stringValue, ',', parts);
+
+		for (auto& part : parts) 
+		{
+			auto value = NVLib::StringUtils::String2Int(part);
+			values.push_back(value);
+		}
+	}
+}

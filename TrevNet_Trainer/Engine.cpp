@@ -28,7 +28,6 @@ Engine::Engine(NVLib::Logger* logger, NVLib::Parameters* parameters)
 
     // Load up code_dash here
     _logger->Log(1, "Connecting to the server machine");
-    _machineName = ArgUtils::GetString(_parameters, "machine");
     auto server = ArgUtils::GetString(_parameters, "server");
     auto port = ArgUtils::GetString(_parameters, "port");
     auto uri = ArgUtils::GetString(_parameters, "uri");
@@ -74,4 +73,34 @@ void Engine::Run()
     _problem = new NVL_AI::ProblemLoader(problemCode, problemFile); _problem->Load(_codeDash);
     _logger->Log(1, "Problem Loaded: %s", _problem->GetDescription().c_str());
     _logger->Log(1, "Number of test records: %i", _problem->GetData().rows);
+
+    _logger->Log(1, "Creating a problem evaluator");
+    auto isValueOutput = ArgUtils::GetBoolean(_parameters, "value_output");
+    auto outputCount = ArgUtils::GetInteger(_parameters, "output_pins");
+    auto outputSizes = vector<int>(); ArgUtils::GetVector(_parameters, "output_sizes", outputSizes);
+    auto evaluator = NVL_AI::Evaluator(_problem->GetData(), outputCount, isValueOutput, outputSizes);
+    _logger->Log(1, "Evaluator created - confirming row count: %i", evaluator.GetRowCount());
+
+    _logger->Log(1, "Registering a session with CodeDash");
+    auto algorithmCode = ArgUtils::GetString(_parameters, "algorithm_code");
+    auto machine = ArgUtils::GetString(_parameters, "machine");
+    _sessionId = _codeDash->CreateSession(algorithmCode, problemCode, machine);
+    _logger->Log(1, "Session Created: %i", _sessionId);    
+
+    _logger->Log(1, "Assembling a trainer");
+    auto trainer = NVL_AI::Trainer(_sessionId, _logger, _network, &evaluator, _codeDash);
+    _logger->Log(1, "Trainer successfully created");
+
+    _logger->Log(1, "Launching training process");
+    _codeDash->StartSession(_sessionId);
+    auto iterations = ArgUtils::GetInteger(_parameters, "iterations");
+    auto learnRate = ArgUtils::GetDouble(_parameters, "learn_rate");
+    auto scoreThresh = ArgUtils::GetDouble(_parameters, "score_thresh");
+    auto success = trainer.Train(iterations, scoreThresh, learnRate);
+    _codeDash->EndSession(_sessionId);
+
+    if (success) _logger->Log(1, "Training completed with a successful convergence");
+    else _logger->Log(1, "Training complete without finding an optimal solution");
+
+
 }

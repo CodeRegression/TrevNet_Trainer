@@ -26,5 +26,6 @@ namespace NVL_App
 		static int GetInteger(NVLib::Parameters * parameters, const string& key);
 		static double GetDouble(NVLib::Parameters * parameters, const string& key);
 		static bool GetBoolean(NVLib::Parameters * parameters, const string& key);
+		static void GetVector(NVLib::Parameters * parameters, const string& key, vector<int>& values);
 	};
 }

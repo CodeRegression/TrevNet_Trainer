@@ -16,6 +16,8 @@ using namespace std;
 #include <TrevNet_TrainerLib/ArgUtils.h>
 #include <TrevNet_TrainerLib/ProblemLoader.h>
 #include <TrevNet_TrainerLib/NetworkFactory.h>
+#include <TrevNet_TrainerLib/Evaluator.h>
+#include <TrevNet_TrainerLib/Trainer.h>
 
 namespace NVL_App
 {
@@ -29,7 +31,6 @@ namespace NVL_App
 		NVL_AI::CodeDash * _codeDash;
 		NVL_AI::Network * _network;
 
-		string _machineName;
 		int _sessionId;
 
 	public:

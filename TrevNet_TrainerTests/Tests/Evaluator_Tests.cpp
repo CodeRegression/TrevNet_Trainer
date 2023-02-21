@@ -115,7 +115,6 @@ TEST(Evaluator_Test, multi_pin_index_output)
 	ASSERT_EQ(outputs[5], 0);
 }
 
-
 /**
  * @brief Row count out of range
  */

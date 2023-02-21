@@ -34,7 +34,7 @@ namespace NVL_AI
 		CodeDash * _codeDash;
 	public:
 		Trainer(int sessionId, NVLib::Logger * logger, Network * network, Evaluator * evaluator, CodeDash * codeDash);
-		bool Train(int Iterations, double threshold, double learnRate);
+		bool Train(int iterations, double threshold, double learnRate);
 	private:
 		void SendMessage(const string& message);
 		void PostUpdate(int epoch, const string& modelString, double error);

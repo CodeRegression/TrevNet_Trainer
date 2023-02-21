@@ -38,9 +38,9 @@ Trainer::Trainer(int sessionId, NVLib::Logger * logger, Network * network, Evalu
  * @param learnRate The expected learn rate
  * @return bool Returns a bool
  */
-bool Trainer::Train(int Iterations, double threshold, double learnRate)
+bool Trainer::Train(int iterations, double threshold, double learnRate)
 {
-	for (auto epoch = 0; epoch < Iterations; epoch++) 
+	for (auto epoch = 0; epoch < iterations; epoch++) 
 	{
 		SendMessage(NVLib::Formatter() << "Processing Epoch: " << epoch);
 		auto total = 0.0;
@@ -90,7 +90,9 @@ void Trainer::PostUpdate(int epoch, const string& modelString, double error)
 	if (_codeDash != nullptr) 
 	{
 		_codeDash->UpdateScore(_sessionId, epoch, error);
-		_codeDash->UpdateSolution(_sessionId, modelString);
+
+		auto resultString = modelString.length() > 100 ? modelString.substr(0, 100) : modelString;
+		_codeDash->UpdateSolution(_sessionId, resultString);
 	}
 	if (_logger != nullptr) _logger->Log(1, "Current Error: %f", error);
 }
