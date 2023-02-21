@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<class>
+
+<namespace>NVL_AI</namespace>
+<solution>TrevNet_TrainerLib</solution>
+<name>Evaluator</name>
+<description>Evaluates the outputs of the system</description>
+
+<includes>
+    <include name="iostream" namespace="std" local="false" />
+    <include name="opencv2/opencv.hpp" namespace="cv" local="false" />
+</includes>
+
+<variables>
+    <variable type="Mat" name="data" code="00" />
+    <variable type="int" name="outputs" code="10" />
+    <variable type="bool" name="valueOut" code="10" />
+</variables>
+
+<constructors>
+
+    <!-- Main Constructor -->
+    <constructor type="custom" inline="false">
+        <parameter type="Mat&" name="data" description="The data that we are testing against" />
+        <parameter type="int" name="outputs" description="The number of data fields can be considered outputs" />
+        <parameter type="bool" name="valueOut" description="Indicates if the truth outputs are values or pin indices" />
+    </constructor>
+
+</constructors>
+
+<methods>
+
+    <!-- Retrieve the number of rows -->
+    <method section="Getter" access="public" return="int" name="GetRowCount" description="Retrieve the number of rows we are testing against" inline="false" />
+
+    <!-- Retrieve the input values at a particular row index -->
+    <method section="Getter" access="public" return="void" name="GetInputs" description="Retrieve the inputs at a given index" inline="false">
+        <parameter type="int" name="rowId" description="The index of the row that we want to get the inputs for" />
+        <parameter type="vector<double>&" name="values" description="The values that we are getting from the system" />
+    </method> 
+
+    <!-- Retrieve the expected outputs -->
+    <method section="Evaluate" modifiers="virtual" access="public" return="void" name="GetOutputs" description="Retrieve the given outputs for the associated row" inline="false">
+        <parameter type="int" name="rowId" description="The index of the row that we went to evaluate" />
+        <parameter type="vector<double>&" name="values" description="The values that we are comparing" />
+        <parameter type="vector<double>&" name="deltas" description="The deltas produced by the system" />
+    </method>
+
+</methods>
+
+<tests>
+    <test name="one_pin_value_output" description="A single pin output value" exception="false" />
+    <test name="multi_pin_value_output" description="Multiple pin output value" exception="false" />
+    <test name="one_pin_index_output" description="A single pin index output" exception="false" />
+    <test name="multi_pin_index_output" description="Multiple pin index output" exception="false" />
+    <test name="index_output_mismatch" description="Wrong number of outputs" exception="true" />
+</tests> 
+
+</class>

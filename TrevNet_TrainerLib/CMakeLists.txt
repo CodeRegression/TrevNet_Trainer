@@ -16,4 +16,5 @@ add_library (TrevNet_TrainerLib STATIC
 	Socket.cpp
 	ProblemLoader.cpp
 	NetworkFactory.cpp
+	Evaluator.cpp
 )

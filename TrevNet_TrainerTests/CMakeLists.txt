@@ -23,7 +23,9 @@ set_target_properties(UnitTestLib PROPERTIES
 add_executable (TrevNet_TrainerTests
 	Tests/Example_Tests.cpp
 	Tests/NetworkFactory_Tests.cpp
+	Tests/Evaluator_Tests.cpp
 )
+
 
 # Add link libraries
 target_link_libraries(TrevNet_TrainerTests TrevNet_TrainerLib TrevNetLib NVLib ${OpenCV_LIBS} UnitTestLib GTest::Main)
