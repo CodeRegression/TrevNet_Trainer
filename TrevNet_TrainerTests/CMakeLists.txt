@@ -24,7 +24,9 @@ add_executable (TrevNet_TrainerTests
 	Tests/Example_Tests.cpp
 	Tests/NetworkFactory_Tests.cpp
 	Tests/Evaluator_Tests.cpp
+	Tests/Trainer_Tests.cpp
 )
+
 
 
 # Add link libraries

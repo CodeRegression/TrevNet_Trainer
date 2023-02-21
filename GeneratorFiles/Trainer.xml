@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<class>
+
+<namespace>NVL_AI</namespace>
+<solution>TrevNet_TrainerLib</solution>
+<name>Trainer</name>
+<description>A tool for training a neural network</description>
+
+<includes>
+    <include name="iostream" namespace="std" local="false" />
+    <include name="opencv2/opencv.hpp" namespace="cv" local="false" />
+    <include name="NVLib/Logger.h" local="false" />
+    <include name="TrevNet/Network.h" local="false" />
+    <include name="Evaluator.h" local="true" />
+</includes>
+
+<variables>
+    <variable type="NLib::Logger *" name="logger" code="00" />
+    <variable type="Network *" name="network" code="00" />
+    <variable type="Evaluator *" name="evaluator" code="00" />
+</variables>
+
+<constructors>
+    
+    <!-- The main constructor -->
+    <constructor type="custom" inline="false">
+        <parameter type="NLib::Logger *" name="logger" description="The logger to show the the process" />
+        <parameter type="Network *" name="network" description="The network that we are training" />
+        <parameter type="Evaluator *" name="evaluator" description="The evaluator that we are dealing with" />
+    </constructor>
+
+</constructors>
+
+<methods>
+
+    <!-- Training method-->
+    <method section="Training" access="public" return="bool" name="Train" description="Add the training logic to the system" inline="false">
+        <parameter type="int" name="Iterations" description="The number of iterations to train at" />
+        <parameter type="double" name="threshold" description="The threshold to to determine when the answer is close enough" />
+    </method>    
+</methods>
+
+<tests>
+    <test name="train_XOR" description="Verify that the trainer is capable of making XOR" exception="false" />
+</tests> 
+
+</class
