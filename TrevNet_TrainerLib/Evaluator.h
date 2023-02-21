@@ -14,6 +14,8 @@ using namespace std;
 #include <opencv2/opencv.hpp>
 using namespace cv;
 
+#include <TrevNetLib/NetworkUtils.h>
+
 namespace NVL_AI
 {
 	class Evaluator
@@ -22,8 +24,9 @@ namespace NVL_AI
 		Mat _data;
 		int _outputs;
 		bool _valueOut;
+		vector<int> _outputSizes;
 	public:
-		Evaluator(Mat& data, int outputs, bool valueOut);
+		Evaluator(Mat& data, int outputs, bool valueOut, const vector<int>& outputSizes = vector<int>());
 
 		int GetRowCount();
 		void GetInputs(int rowId, vector<double>& values);

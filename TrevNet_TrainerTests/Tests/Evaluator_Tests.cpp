@@ -50,7 +50,7 @@ TEST(Evaluator_Test, one_pin_value_output)
 
 	// Confirm
 	ASSERT_EQ(deltas.size(), 1);
-	ASSERT_EQ(deltas[0], 1.5);
+	ASSERT_EQ(deltas[0], 1.125);
 }
 
 /**
@@ -68,8 +68,8 @@ TEST(Evaluator_Test, multi_pin_value_output)
 
 	// Confirm
 	ASSERT_EQ(deltas.size(), 2);
-	ASSERT_EQ(deltas[0], 1.5);
-	ASSERT_EQ(deltas[1], 1.0);
+	ASSERT_EQ(deltas[0], 1.125);
+	ASSERT_EQ(deltas[1], 0.5);
 }
 
 /**
@@ -79,7 +79,7 @@ TEST(Evaluator_Test, one_pin_index_output)
 {
 	// Setup
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0);
-	auto evaluator = Evaluator(data, 1, false);
+	auto evaluator = Evaluator(data, 1, false, vector<int> { 3 });
 
 	// Execute
 	auto test = vector<double> { 0.1, 0.2, 0.9 }; auto deltas = vector<double>();
@@ -99,8 +99,8 @@ TEST(Evaluator_Test, one_pin_index_output)
 TEST(Evaluator_Test, multi_pin_index_output)
 {
 	// Setup
-	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
-	auto evaluator = Evaluator(data, 2, false);
+	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 1.0);
+	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
 	// Execute
 	auto test = vector<double> { 0.1, 0.2, 0.9, 0.0, 0.3, 0.6 }; auto deltas = vector<double>();
@@ -108,12 +108,12 @@ TEST(Evaluator_Test, multi_pin_index_output)
 
 	// Confirm
 	ASSERT_EQ(deltas.size(), 6);
-	ASSERT_EQ(deltas[0], 0.1);
-	ASSERT_EQ(deltas[1], 0.2);
-	ASSERT_EQ(deltas[2], 0.1);
-	ASSERT_EQ(deltas[3], 0.0);
-	ASSERT_EQ(deltas[4], 0.7);
-	ASSERT_EQ(deltas[5], 0.6);
+	ASSERT_NEAR(deltas[0], 0.1 * 0.1 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[1], 0.2 * 0.2 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[2], 0.1 * 0.1 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[3], 0.0, 1e-4);
+	ASSERT_NEAR(deltas[4], 0.7 * 0.7 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[5], 0.6 * 0.6 * 0.5, 1e-4);
 	ASSERT_FALSE(correct);
 }
 
@@ -123,10 +123,10 @@ TEST(Evaluator_Test, multi_pin_index_output)
 TEST(Evaluator_Test, index_output_mismatch)
 {
 	// Setup
-	auto expected = string("Input Mismatch");
+	auto expected = string("There appears to be a mismatch with the output sizes");
 
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
-	auto evaluator = Evaluator(data, 2, false);
+	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
 	// Execute
 	auto test = vector<double> { 0.1 }; auto deltas = vector<double>();
@@ -156,7 +156,7 @@ TEST(Evaluator_Test, row_out_of_range)
 	auto expected = string("RowId is out of range");
 
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
-	auto evaluator = Evaluator(data, 2, false);
+	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
 	// Execute
 	auto test = vector<double> { 0.1, 0.2, 0.9, 0.0, 0.3, 0.6 }; auto deltas = vector<double>();
