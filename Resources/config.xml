@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <opencv_storage>
 <problem_code>IRIS</problem_code>
-<server>"49.227.218.234"</server>
+<server>"192.168.1.109"</server>
 <port>"8080"</port>
 <machine>"LabDev"</machine>
 <uri>/CodeDash/</uri>

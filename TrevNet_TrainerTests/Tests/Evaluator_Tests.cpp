@@ -78,7 +78,7 @@ TEST(Evaluator_Test, multi_pin_value_output)
 TEST(Evaluator_Test, one_pin_index_output)
 {
 	// Setup
-	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0);
+	Mat data = (Mat_<double>(1, 3) << 1.0, 1.0, 2.0);
 	auto evaluator = Evaluator(data, 1, false, vector<int> { 3 });
 
 	// Execute
@@ -87,9 +87,9 @@ TEST(Evaluator_Test, one_pin_index_output)
 
 	// Confirm
 	ASSERT_EQ(deltas.size(), 3);
-	ASSERT_EQ(deltas[0], 0.1);
-	ASSERT_EQ(deltas[1], 0.2);
-	ASSERT_EQ(deltas[2], 0.1);
+	ASSERT_NEAR(deltas[0], 0.1 * 0.1 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[1], 0.2 * 0.2 * 0.5, 1e-4);
+	ASSERT_NEAR(deltas[2], 0.1 * 0.1 * 0.5, 1e-4);
 	ASSERT_TRUE(correct);
 }
 
@@ -128,7 +128,6 @@ TEST(Evaluator_Test, index_output_mismatch)
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
 	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
-	// Execute
 	auto test = vector<double> { 0.1 }; auto deltas = vector<double>();
 
 	// Execute
@@ -158,8 +157,8 @@ TEST(Evaluator_Test, row_out_of_range)
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
 	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
-	// Execute
 	auto test = vector<double> { 0.1, 0.2, 0.9, 0.0, 0.3, 0.6 }; auto deltas = vector<double>();
+
 	// Execute
 	try
 	{
