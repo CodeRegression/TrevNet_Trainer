@@ -30,8 +30,9 @@ namespace NVL_AI
 
 		int GetRowCount();
 		void GetInputs(int rowId, vector<double>& values);
-
-		bool Evaluate(int rowId, vector<double>& values, vector<double>& deltas);
+		void GetOutputs(int rowId, vector<double>& outputs);
+		
+		double GetError(vector<double>& expected, vector<double>& actual);
 
 		inline int& GetOutputs() { return _outputs; }
 		inline bool GetValueOut() { return _valueOut; }

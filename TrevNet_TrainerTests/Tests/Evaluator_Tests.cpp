@@ -45,12 +45,12 @@ TEST(Evaluator_Test, one_pin_value_output)
 	auto evaluator = Evaluator(data, 1, true);
 
 	// Execute
-	auto test = vector<double> { 0.5 }; auto deltas = vector<double>();
-	evaluator.Evaluate(0, test, deltas);
+	auto outputs = vector<double>();
+	evaluator.GetOutputs(0, outputs);
 
 	// Confirm
-	ASSERT_EQ(deltas.size(), 1);
-	ASSERT_EQ(deltas[0], 1.125);
+	ASSERT_EQ(outputs.size(), 1);
+	ASSERT_EQ(outputs[0], 2);
 }
 
 /**
@@ -63,13 +63,13 @@ TEST(Evaluator_Test, multi_pin_value_output)
 	auto evaluator = Evaluator(data, 2, true);
 
 	// Execute
-	auto test = vector<double> { 0.5, 2.0 }; auto deltas = vector<double>();
-	evaluator.Evaluate(0, test, deltas);
+	auto outputs = vector<double>();
+	evaluator.GetOutputs(0, outputs);
 
 	// Confirm
-	ASSERT_EQ(deltas.size(), 2);
-	ASSERT_EQ(deltas[0], 1.125);
-	ASSERT_EQ(deltas[1], 0.5);
+	ASSERT_EQ(outputs.size(), 2);
+	ASSERT_EQ(outputs[0], 2);
+	ASSERT_EQ(outputs[1], 1);
 }
 
 /**
@@ -82,15 +82,14 @@ TEST(Evaluator_Test, one_pin_index_output)
 	auto evaluator = Evaluator(data, 1, false, vector<int> { 3 });
 
 	// Execute
-	auto test = vector<double> { 0.1, 0.2, 0.9 }; auto deltas = vector<double>();
-	auto correct = evaluator.Evaluate(0, test, deltas);
+	auto outputs = vector<double>();
+	evaluator.GetOutputs(0, outputs);
 
 	// Confirm
-	ASSERT_EQ(deltas.size(), 3);
-	ASSERT_NEAR(deltas[0], 0.1 * 0.1 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[1], 0.2 * 0.2 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[2], 0.1 * 0.1 * 0.5, 1e-4);
-	ASSERT_TRUE(correct);
+	ASSERT_EQ(outputs.size(), 3);
+	ASSERT_EQ(outputs[0], 0);
+	ASSERT_EQ(outputs[1], 0);
+	ASSERT_EQ(outputs[2], 1);
 }
 
 /**
@@ -103,48 +102,19 @@ TEST(Evaluator_Test, multi_pin_index_output)
 	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
 	// Execute
-	auto test = vector<double> { 0.1, 0.2, 0.9, 0.0, 0.3, 0.6 }; auto deltas = vector<double>();
-	auto correct = evaluator.Evaluate(0, test, deltas);
+	auto outputs = vector<double>();
+	evaluator.GetOutputs(0, outputs);
 
 	// Confirm
-	ASSERT_EQ(deltas.size(), 6);
-	ASSERT_NEAR(deltas[0], 0.1 * 0.1 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[1], 0.2 * 0.2 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[2], 0.1 * 0.1 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[3], 0.0, 1e-4);
-	ASSERT_NEAR(deltas[4], 0.7 * 0.7 * 0.5, 1e-4);
-	ASSERT_NEAR(deltas[5], 0.6 * 0.6 * 0.5, 1e-4);
-	ASSERT_FALSE(correct);
+	ASSERT_EQ(outputs.size(), 6);
+	ASSERT_EQ(outputs[0], 0);
+	ASSERT_EQ(outputs[1], 0);
+	ASSERT_EQ(outputs[2], 1);
+	ASSERT_EQ(outputs[3], 0);
+	ASSERT_EQ(outputs[4], 1);
+	ASSERT_EQ(outputs[5], 0);
 }
 
-/**
- * @brief Wrong number of outputs
- */
-TEST(Evaluator_Test, index_output_mismatch)
-{
-	// Setup
-	auto expected = string("There appears to be a mismatch with the output sizes");
-
-	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
-	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
-
-	auto test = vector<double> { 0.1 }; auto deltas = vector<double>();
-
-	// Execute
-	try
-	{
-		evaluator.Evaluate(0, test, deltas);
-		FAIL() << "Expected exception: " << expected;
-	}
-	catch(runtime_error exception)
-	{
-		ASSERT_EQ(exception.what(), expected);
-	}
-	catch(...)
-	{
-		FAIL() << "Expected exception: " << expected;
-	}
-}
 
 /**
  * @brief Row count out of range
@@ -157,12 +127,12 @@ TEST(Evaluator_Test, row_out_of_range)
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
 	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
 
-	auto test = vector<double> { 0.1, 0.2, 0.9, 0.0, 0.3, 0.6 }; auto deltas = vector<double>();
+	auto output = vector<double>();
 
 	// Execute
 	try
 	{
-		auto correct = evaluator.Evaluate(1, test, deltas);
+		evaluator.GetOutputs(1, output);
 		FAIL() << "Expected exception: " << expected;
 	}
 	catch(runtime_error exception)

@@ -15,20 +15,28 @@ using namespace std;
 using namespace cv;
 
 #include <NVLib/Logger.h>
+#include <NVLib/Formatter.h>
 
 #include <TrevNetLib/Network.h>
+
 #include "Evaluator.h"
+#include "CodeDash.h"
 
 namespace NVL_AI
 {
 	class Trainer
 	{
 	private:
+		int _sessionId;
 		NVLib::Logger * _logger;
 		Network * _network;
 		Evaluator * _evaluator;
+		CodeDash * _codeDash;
 	public:
-		Trainer(NVLib::Logger * logger, Network * network, Evaluator * evaluator);
-		bool Train(int Iterations, double threshold);
+		Trainer(int sessionId, NVLib::Logger * logger, Network * network, Evaluator * evaluator, CodeDash * codeDash);
+		bool Train(int Iterations, double threshold, double learnRate);
+	private:
+		void SendMessage(const string& message);
+		void PostUpdate(int epoch, const string& modelString, double error);
 	};
 }

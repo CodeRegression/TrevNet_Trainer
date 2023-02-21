@@ -58,17 +58,15 @@ void Evaluator::GetInputs(int rowId, vector<double>& values)
 }
 
 //--------------------------------------------------
-// Evaluate
+// Retrieve Outputs
 //--------------------------------------------------
 
 /**
  * @brief Retrieve the given outputs for the associated row
  * @param rowId The index of the row that we went to evaluate
- * @param values The values that we are comparing
- * @param deltas The deltas produced by the system
- * @return Indicates if the value was "correct" or not
+ * @param outputValues The values that we are comparing
  */
-bool Evaluator::Evaluate(int rowId, vector<double>& values, vector<double>& deltas)
+void Evaluator::GetOutputs(int rowId, vector<double>& outputs)
 {
 	if (rowId < 0 || rowId >= _data.rows) throw runtime_error("RowId is out of range");
 
@@ -77,33 +75,20 @@ bool Evaluator::Evaluate(int rowId, vector<double>& values, vector<double>& delt
 
 	auto indexStart = rowId * _data.cols + solutionStart;
 
-	deltas.clear();
-
-	auto success = true;
+	outputs.clear();
 
 	if (_valueOut) 
 	{
-		if (values.size() != _outputs) throw runtime_error("There appears to be a mismatch with the outputs size");
-
 		for (auto i = 0; i < _outputs; i++) 
 		{
 			auto index = indexStart + i;
-			auto& expected = dataLink[index];
-			auto& actual = values[i];
-			auto delta = NetworkUtils::GetError(expected, actual);
-			if (abs(delta) > 1e-4) success = false;
-			deltas.push_back(delta);
+			auto& value = dataLink[index];
+			outputs.push_back(value);
 		}
 	}
 	else 
 	{
 		if (_outputSizes.size() != _outputs) throw runtime_error("Output sizes have not been correctly set");
-
-		// Verify the output size
-		auto sum = 0; for (auto& value : _outputSizes) sum+= value;
-		if (sum != values.size()) throw runtime_error("There appears to be a mismatch with the output sizes");
-
-		int outputOffset = 0;
 
 		for (auto i = 0; i < _outputs; i++) 
 		{
@@ -113,17 +98,42 @@ bool Evaluator::Evaluate(int rowId, vector<double>& values, vector<double>& delt
 
 			for (int j=0; j < _outputSizes[i]; j++) 
 			{
-				auto expected = (j == trueIndex) ? 1.0 : 0.0;
-				auto& actual = values[j + outputOffset]; 
-				auto delta = NetworkUtils::GetError(expected, actual);
-				auto diff = abs(expected - actual);
-				if (abs(diff) > 0.4) success = false;
-				deltas.push_back(delta);
+				auto value = (j == trueIndex) ? 1.0 : 0.0;
+				outputs.push_back(value);
 			}
+		}
+	}
+}
 
-			outputOffset += _outputSizes[i];						
+//--------------------------------------------------
+// Error Calculation
+//--------------------------------------------------
+
+/**
+ * @brief Retrieve the error
+ * @param expected The expected value
+ * @param actual The actual value
+ * @return double The resultant value
+ */
+double Evaluator::GetError(vector<double>& expected, vector<double>& actual) 
+{
+	if (expected.size() != actual.size()) throw runtime_error("Error evaluation size mismatch");
+
+	auto total = 0.0;
+
+	for (auto i = 0; i < expected.size(); i++) 
+	{
+		auto error = abs(expected[i] - actual[i]);
+
+		if (_valueOut) 
+		{
+			total += error;
+		}
+		else 
+		{
+			if (error > 0.4) total++;
 		}
 	}
 
-	return success;
+	return _valueOut ? total / expected.size() : total;
 }

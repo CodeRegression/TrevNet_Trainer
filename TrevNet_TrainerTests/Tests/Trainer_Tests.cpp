@@ -34,10 +34,10 @@ TEST(Trainer_Test, train_XOR)
 	auto generator = NVL_AI::RandomGenerator();
 	auto network = NVL_AI::Network(&generator, vector<int> {2, 10, 1});
 
-	auto trainer = Trainer(&logger, &network, &evaluator);
+	auto trainer = Trainer(-1, &logger, &network, &evaluator, nullptr);
 
 	// Execute
-	auto success = trainer.Train(400, 1e-4);
+	auto success = trainer.Train(400, 0.25, 1e-2);
 
 	// Confirm
 	ASSERT_FALSE(XOR(network, 0, 0));
