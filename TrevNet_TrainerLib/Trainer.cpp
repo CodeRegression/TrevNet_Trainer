@@ -53,12 +53,12 @@ bool Trainer::Train(int iterations, double threshold, double learnRate)
 
 			auto actuals = vector<double>(); _network->Evaluate(inputs, actuals);
 			auto error = _evaluator->GetError(outputs, actuals);
-			total += error;  
+			total += error; 
 		}
 
 		total /= _evaluator->GetRowCount();
 		auto modelString = stringstream(); _network->GetModelString(modelString);
-		if (epoch % 15 == 0) PostUpdate(epoch, modelString.str(), total);
+		if (epoch != 0 && epoch % 30 == 0) PostUpdate(epoch, modelString.str(), total);
 
 		if (total < threshold) return true;
 	}

@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <opencv_storage>
 <problem_code>IRIS</problem_code>
-<server>"49.227.218.234"</server>
-<port>"8080"</port>
-<machine>"LabDev"</machine>
+<server>"192.168.1.130"</server>
+<port>"80"</port>
+<machine>"HomeDev"</machine>
 <uri>/CodeDash/</uri>
-<problem_file>/home/trevor/Work/Research/Trevor/SymReg/TrevNet_Trainer/build/TrevNet_Trainer/Input/B692E1414FD145589F5C8F1F234E894D.arff</problem_file>
+<problem_file>/home/trevor/Work/Research/Trevor/SymReg/TrevNet_Trainer/build/TrevNet_Trainer/Input/ED4511B49A9D4F7C829820B0D4C0B92D.arff</problem_file>
 <network>"4,16,1"</network>
-<algorithm_code>ETREE_C</algorithm_code>
-<iterations>"900"</iterations>
+<algorithm_code>TREVNET</algorithm_code>
+<iterations>"500"</iterations>
 <learn_rate>"0.000001"</learn_rate>
 <score_thresh>"0.1"</score_thresh>
 <output_model>model.txt</output_model>
