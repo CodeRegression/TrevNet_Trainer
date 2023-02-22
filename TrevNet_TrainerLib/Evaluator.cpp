@@ -20,7 +20,7 @@ using namespace NVL_AI;
  * @param valueOut Indicates if the truth outputs are values or pin indices
  * @param outputSizes The sizes of the various outputs in the case of "Index Out"
  */
-Evaluator::Evaluator(Mat& data, int outputs, bool valueOut, const vector<int>& outputSizes) : _data(data), _outputs(outputs), _valueOut(valueOut), _outputSizes(outputSizes)
+Evaluator::Evaluator(Mat& data, int outputs) : _data(data), _outputs(outputs)
 {
 	if (outputs >= data.cols) throw runtime_error("The number of outputs cannot match the column count");
 }
@@ -77,31 +77,11 @@ void Evaluator::GetOutputs(int rowId, vector<double>& outputs)
 
 	outputs.clear();
 
-	if (_valueOut) 
+	for (auto i = 0; i < _outputs; i++) 
 	{
-		for (auto i = 0; i < _outputs; i++) 
-		{
-			auto index = indexStart + i;
-			auto& value = dataLink[index];
-			outputs.push_back(value);
-		}
-	}
-	else 
-	{
-		if (_outputSizes.size() != _outputs) throw runtime_error("Output sizes have not been correctly set");
-
-		for (auto i = 0; i < _outputs; i++) 
-		{
-			auto index = indexStart + i; 
-			auto trueIndex = (int)dataLink[index];
-			if (trueIndex < 0 || trueIndex >= _outputSizes[i]) throw runtime_error("True index mismatches with output index");
-
-			for (int j=0; j < _outputSizes[i]; j++) 
-			{
-				auto value = (j == trueIndex) ? 1.0 : 0.0;
-				outputs.push_back(value);
-			}
-		}
+		auto index = indexStart + i;
+		auto& value = dataLink[index];
+		outputs.push_back(value);
 	}
 }
 
@@ -117,26 +97,17 @@ void Evaluator::GetOutputs(int rowId, vector<double>& outputs)
  */
 double Evaluator::GetError(vector<double>& expected, vector<double>& actual) 
 {
-	if (expected.size() != actual.size()) throw runtime_error("Error evaluation size mismatch");
+if (expected.size() != actual.size()) throw runtime_error("Error evaluation size mismatch");
 
-	//if (_valueOut) 
-	//{
-		auto total = 0.0;
+	auto total = 0.0;
 
-		for (auto i = 0; i < expected.size(); i++) 
-		{
-			auto error = abs(expected[i] - actual[i]);
-			total += error;
-		}
+	for (auto i = 0; i < expected.size(); i++) 
+	{
+		auto error = abs(expected[i] - actual[i]);
+		total += error;
+	}
 
-		return total / expected.size();
-    //}
-	//else 
-	//{ 
-	//	auto expectedIndex = GetBestValue(expected);
-	//	auto actualIndex = GetBestValue(actual);
-	//	return expectedIndex == actualIndex ? 0 : 1;
-	//}
+	return total / expected.size();
 }
 
 /**

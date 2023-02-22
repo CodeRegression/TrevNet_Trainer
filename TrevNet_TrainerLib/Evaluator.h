@@ -23,10 +23,8 @@ namespace NVL_AI
 	private:
 		Mat _data;
 		int _outputs;
-		bool _valueOut;
-		vector<int> _outputSizes;
 	public:
-		Evaluator(Mat& data, int outputs, bool valueOut, const vector<int>& outputSizes = vector<int>());
+		Evaluator(Mat& data, int outputs);
 
 		int GetRowCount();
 		void GetInputs(int rowId, vector<double>& values);
@@ -35,7 +33,6 @@ namespace NVL_AI
 		double GetError(vector<double>& expected, vector<double>& actual);
 
 		inline int& GetOutputs() { return _outputs; }
-		inline bool GetValueOut() { return _valueOut; }
 	private:
 		int GetBestValue(const vector<double>& values);
 	};

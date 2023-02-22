@@ -75,10 +75,7 @@ void Engine::Run()
     _logger->Log(1, "Number of test records: %i", _problem->GetData().rows);
 
     _logger->Log(1, "Creating a problem evaluator");
-    auto isValueOutput = ArgUtils::GetBoolean(_parameters, "value_output");
-    auto outputCount = ArgUtils::GetInteger(_parameters, "output_pins");
-    auto outputSizes = vector<int>(); ArgUtils::GetVector(_parameters, "output_sizes", outputSizes);
-    auto evaluator = NVL_AI::Evaluator(_problem->GetData(), outputCount, isValueOutput, outputSizes);
+    auto evaluator = NVL_AI::Evaluator(_problem->GetData(), _network->GetOutputCount());
     _logger->Log(1, "Evaluator created - confirming row count: %i", evaluator.GetRowCount());
 
     _logger->Log(1, "Registering a session with CodeDash");

@@ -6,9 +6,6 @@
 <machine>"LabDev"</machine>
 <uri>/CodeDash/</uri>
 <problem_file>/home/trevor/Work/Research/Trevor/SymReg/TrevNet_Trainer/build/TrevNet_Trainer/Input/B692E1414FD145589F5C8F1F234E894D.arff</problem_file>
-<value_output>"1"</value_output>
-<output_pins>"1"</output_pins>
-<output_sizes>"3"</output_sizes>
 <network>"4,16,1"</network>
 <algorithm_code>ETREE_C</algorithm_code>
 <iterations>"900"</iterations>

@@ -24,7 +24,7 @@ TEST(Evaluator_Test, getter_functionality)
 	Mat data = (Mat_<double>(3,3) << 2.0, 1.0, 3.0, 1.0, 1.0, 2.0, 7.0, 6.0, 13.0);
 
 	// Execute
-	auto evaluator = Evaluator(data, 1, true);
+	auto evaluator = Evaluator(data, 1);
 	auto inputs = vector<double>(); evaluator.GetInputs(2, inputs);
 	int rows = evaluator.GetRowCount();
 
@@ -42,7 +42,7 @@ TEST(Evaluator_Test, one_pin_value_output)
 {
 	// Setup
 	Mat data = (Mat_<double>(1, 3) << 1.0, 1.0, 2.0);
-	auto evaluator = Evaluator(data, 1, true);
+	auto evaluator = Evaluator(data, 1);
 
 	// Execute
 	auto outputs = vector<double>();
@@ -60,7 +60,7 @@ TEST(Evaluator_Test, multi_pin_value_output)
 {
 	// Setup
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 1.0);
-	auto evaluator = Evaluator(data, 2, true);
+	auto evaluator = Evaluator(data, 2);
 
 	// Execute
 	auto outputs = vector<double>();
@@ -73,49 +73,6 @@ TEST(Evaluator_Test, multi_pin_value_output)
 }
 
 /**
- * @brief A single pin index output
- */
-TEST(Evaluator_Test, one_pin_index_output)
-{
-	// Setup
-	Mat data = (Mat_<double>(1, 3) << 1.0, 1.0, 2.0);
-	auto evaluator = Evaluator(data, 1, false, vector<int> { 3 });
-
-	// Execute
-	auto outputs = vector<double>();
-	evaluator.GetOutputs(0, outputs);
-
-	// Confirm
-	ASSERT_EQ(outputs.size(), 3);
-	ASSERT_EQ(outputs[0], 0);
-	ASSERT_EQ(outputs[1], 0);
-	ASSERT_EQ(outputs[2], 1);
-}
-
-/**
- * @brief Multiple pin index output
- */
-TEST(Evaluator_Test, multi_pin_index_output)
-{
-	// Setup
-	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 1.0);
-	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
-
-	// Execute
-	auto outputs = vector<double>();
-	evaluator.GetOutputs(0, outputs);
-
-	// Confirm
-	ASSERT_EQ(outputs.size(), 6);
-	ASSERT_EQ(outputs[0], 0);
-	ASSERT_EQ(outputs[1], 0);
-	ASSERT_EQ(outputs[2], 1);
-	ASSERT_EQ(outputs[3], 0);
-	ASSERT_EQ(outputs[4], 1);
-	ASSERT_EQ(outputs[5], 0);
-}
-
-/**
  * @brief Row count out of range
  */
 TEST(Evaluator_Test, row_out_of_range)
@@ -124,7 +81,7 @@ TEST(Evaluator_Test, row_out_of_range)
 	auto expected = string("RowId is out of range");
 
 	Mat data = (Mat_<double>(1, 4) << 1.0, 1.0, 2.0, 0.1);
-	auto evaluator = Evaluator(data, 2, false, vector<int> {3, 3});
+	auto evaluator = Evaluator(data, 2);
 
 	auto output = vector<double>();
 

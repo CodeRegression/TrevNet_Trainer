@@ -30,7 +30,7 @@ TEST(Trainer_Test, train_XOR)
 	// Setup
 	auto logger = NVLib::Logger(1);
 	Mat data = (Mat_<double>(4,3) << 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0);
-	auto evaluator = Evaluator(data, 1, true);
+	auto evaluator = Evaluator(data, 1);
 	auto generator = NVL_AI::RandomGenerator();
 	auto network = NVL_AI::Network(&generator, vector<int> {2, 10, 1});
 
