@@ -119,21 +119,40 @@ double Evaluator::GetError(vector<double>& expected, vector<double>& actual)
 {
 	if (expected.size() != actual.size()) throw runtime_error("Error evaluation size mismatch");
 
-	auto total = 0.0;
+	//if (_valueOut) 
+	//{
+		auto total = 0.0;
 
-	for (auto i = 0; i < expected.size(); i++) 
-	{
-		auto error = abs(expected[i] - actual[i]);
-
-		if (_valueOut) 
+		for (auto i = 0; i < expected.size(); i++) 
 		{
+			auto error = abs(expected[i] - actual[i]);
 			total += error;
 		}
-		else 
-		{
-			if (error > 0.4) total++;
-		}
+
+		return total / expected.size();
+    //}
+	//else 
+	//{ 
+	//	auto expectedIndex = GetBestValue(expected);
+	//	auto actualIndex = GetBestValue(actual);
+	//	return expectedIndex == actualIndex ? 0 : 1;
+	//}
+}
+
+/**
+ * @brief Retrieve the best value
+ * @param values The values that we are getting
+ * @return int The resultant value
+ */
+int Evaluator::GetBestValue(const vector<double>& values) 
+{
+	auto bestIndex = 0; auto bestScore = values[0];
+
+	for (auto i = 0; i < values.size(); i++) 
+	{
+		auto currentScore = values[i];
+		if (currentScore > bestScore) { bestIndex = i; bestScore = currentScore; }
 	}
 
-	return _valueOut ? total / expected.size() : total;
+	return bestIndex;
 }

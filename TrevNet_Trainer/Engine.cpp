@@ -21,7 +21,7 @@ using namespace NVL_App;
 Engine::Engine(NVLib::Logger* logger, NVLib::Parameters* parameters) 
 {
     // Core Initialization
-    _logger = logger; _parameters = parameters;
+    _logger = logger; _parameters = parameters; NVLib::RandomUtils::TimeSeedRandomNumbers();
 
      // Initialize the size
     _sessionId = -1;
@@ -102,5 +102,23 @@ void Engine::Run()
     if (success) _logger->Log(1, "Training completed with a successful convergence");
     else _logger->Log(1, "Training complete without finding an optimal solution");
 
+    _logger->Log(1, "Writing the output model to file");
+    auto outputPath = ArgUtils::GetString(_parameters, "output_model");
+    SaveModel(outputPath);
+    _logger->Log(1, "Model writing complete");
+}
 
+//--------------------------------------------------
+// Save Model
+//--------------------------------------------------
+
+/**
+ * @brief Add the logic to save the model to file 
+ * @param filename The name of the file that we are saving
+ */
+void Engine::SaveModel(const string& filename) 
+{
+    auto writer = ofstream(filename);
+    _network->GetModelString(writer);
+    writer.close();
 }

@@ -50,6 +50,7 @@ bool Trainer::Train(int iterations, double threshold, double learnRate)
 			auto inputs = vector<double>(); _evaluator->GetInputs(row, inputs);
 			auto outputs = vector<double>(); _evaluator->GetOutputs(row, outputs);
 			_network->Update(inputs, outputs, learnRate);
+
 			auto actuals = vector<double>(); _network->Evaluate(inputs, actuals);
 			auto error = _evaluator->GetError(outputs, actuals);
 			total += error;  
@@ -57,7 +58,7 @@ bool Trainer::Train(int iterations, double threshold, double learnRate)
 
 		total /= _evaluator->GetRowCount();
 		auto modelString = stringstream(); _network->GetModelString(modelString);
-		PostUpdate(epoch, modelString.str(), total);
+		if (epoch % 15 == 0) PostUpdate(epoch, modelString.str(), total);
 
 		if (total < threshold) return true;
 	}

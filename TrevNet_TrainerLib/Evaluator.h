@@ -36,5 +36,7 @@ namespace NVL_AI
 
 		inline int& GetOutputs() { return _outputs; }
 		inline bool GetValueOut() { return _valueOut; }
+	private:
+		int GetBestValue(const vector<double>& values);
 	};
 }

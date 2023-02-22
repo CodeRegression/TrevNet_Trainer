@@ -38,5 +38,7 @@ namespace NVL_App
 		~Engine();
 
 		void Run();
+	private:
+		void SaveModel(const string& filename);
 	};
 }
